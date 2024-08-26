@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/widgets/amount_selection_screen/widgets/recharge_amounts_widget.dart';
+import 'package:mobile_recharge_app/widgets/screen_amount_selection/widgets/recharge_amounts_widget.dart';
 
 class AmountSelectionPage extends StatefulWidget {
   const AmountSelectionPage({super.key});

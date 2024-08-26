@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/widgets/amount_selection_screen/widgets/amounts_enum.dart';
+import 'package:mobile_recharge_app/widgets/screen_amount_selection/widgets/amounts_enum.dart';
 
 class RechargeAmountWidget extends StatefulWidget {
   const RechargeAmountWidget({super.key});
@@ -28,6 +28,11 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
 
   ListTile amountListTile(AmountsEnum value) {
     return ListTile(
+      // onTap: () {
+      //   setState(() {
+      //     _character = value;
+      //   });
+      // },
       title: Text(value.text),
       leading: Radio<AmountsEnum>(
         value: value,

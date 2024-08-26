@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/widgets/mobile_recharge_screen/mobile_recharge_page.dart';
+import 'package:mobile_recharge_app/widgets/screen_mobile_recharge/mobile_recharge_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,7 +14,7 @@ class _LoginPage extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Mobile Recharge App'),
+        title: const Text('Mobile Recharge App'),
       ),
       body: body(context),
     );
@@ -27,14 +27,14 @@ class _LoginPage extends State<LoginPage> {
         Center(
           child: Column(
             children: [
-              Text("Welcome to the App"),
-              Text("This is Text 2"),
+              const Text("Welcome to the App"),
+              const Text("This is Text 2"),
               FilledButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => MobileRechargePage()));
+                      builder: (context) => const MobileRechargePage()));
                 },
-                child: Text("Next"),
+                child: const Text("Next"),
               )
             ],
           ),

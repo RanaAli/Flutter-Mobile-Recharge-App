@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/widgets/amount_selection_screen/amount_selection_page.dart';
+import 'package:mobile_recharge_app/widgets/screen_amount_selection/amount_selection_page.dart';
 
 class BeneficiaryItemWidget extends StatelessWidget {
   const BeneficiaryItemWidget({
