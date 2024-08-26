@@ -41,6 +41,10 @@ class BeneficiaryItemWidget extends StatelessWidget {
               ),
               child: const Text(
                 "Recharge Now",
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 12,
+                  )
               ),
             )
           ],

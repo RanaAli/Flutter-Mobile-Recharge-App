@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/widgets/BeneficiaryItemWidget.dart';
 
@@ -42,12 +43,29 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Row body(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[BeneficiaryItemWidget()],
+  CarouselSlider body(BuildContext context) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 130,
+        enableInfiniteScroll: false,
+        initialPage: 0,
+        enlargeCenterPage: false,
+        viewportFraction: 0.4,
+        disableCenter: true,
+        padEnds: false,
+        pageSnapping: true,
+      ),
+      items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(color: Colors.transparent),
+              child: const BeneficiaryItemWidget(),
+            );
+          },
+        );
+      }).toList(),
     );
   }
 }
-
-
