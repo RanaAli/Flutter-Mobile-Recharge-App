@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/navigation/routes.dart';
+import 'package:mobile_recharge_app/ui_elements/my_app_bar.dart';
 import 'package:mobile_recharge_app/widgets/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
 
 class MobileRechargePage extends StatefulWidget {
@@ -13,11 +15,14 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Select Beneficiary"),
-      ),
+      appBar: getDefaultAppBar(context, "Select Beneficiary"),
       body: body(context),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigo.shade400,
+        tooltip: 'Add Beneficiary',
+        onPressed: () => navigateToAddBeneficiary(context),
+        child: const Icon(Icons.add, color: Colors.white, size: 28),
+      ),
     );
   }
 

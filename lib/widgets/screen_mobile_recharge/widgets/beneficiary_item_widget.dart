@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/widgets/screen_amount_selection/amount_selection_page.dart';
+import 'package:mobile_recharge_app/navigation/routes.dart';
+import 'package:mobile_recharge_app/ui_elements/button_styles.dart';
+import 'package:mobile_recharge_app/ui_elements/text_styles.dart';
 
 class BeneficiaryItemWidget extends StatelessWidget {
   const BeneficiaryItemWidget({
@@ -15,39 +17,14 @@ class BeneficiaryItemWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              "Rana Ahsan Ali",
-              style: TextStyle(
-                color: Colors.indigo.shade400,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
+            Text("Rana Ahsan Ali", style: textStyleNormalBoldBlue),
             const SizedBox(height: 4),
-            const Text(
-              "+971554623827",
-              style: TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.normal,
-                fontSize: 12,
-              ),
-            ),
+            const Text("+971554623827", style: textStyleSmallGrey),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AmountSelectionPage()));
-              },
-              style: ButtonStyle(
-                foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(Colors.indigo.shade400),
-              ),
-              child: const Text("Recharge Now",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12,
-                  )),
+              onPressed: () => navigateToAmountSelection(context),
+              style: buttonStyleBlue,
+              child: const Text("Recharge Now", style: textStyleWhite),
             )
           ],
         ),
