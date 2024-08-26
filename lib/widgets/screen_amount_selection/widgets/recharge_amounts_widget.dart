@@ -28,11 +28,11 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
 
   ListTile amountListTile(AmountsEnum value) {
     return ListTile(
-      // onTap: () {
-      //   setState(() {
-      //     _character = value;
-      //   });
-      // },
+      onTap: () {
+        setState(() {
+          _character = value;
+        });
+      },
       title: Text(value.text),
       leading: Radio<AmountsEnum>(
         value: value,
