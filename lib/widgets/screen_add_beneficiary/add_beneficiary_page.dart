@@ -43,10 +43,16 @@ Padding body(BuildContext context) {
           ),
         ),
         const SizedBox(height: 16),
-        FilledButton(
-          onPressed: () {},
-          style: buttonStyleBlue,
-          child: const Text("Add"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FilledButton(
+
+              onPressed: () {},
+              style: buttonStyleBlue,
+              child: const Text("Add"),
+            ),
+          ],
         ),
       ],
     ),
