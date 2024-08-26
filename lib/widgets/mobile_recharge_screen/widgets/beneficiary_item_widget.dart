@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/widgets/amount_selection_screen/amount_selection_page.dart';
 
 class BeneficiaryItemWidget extends StatelessWidget {
   const BeneficiaryItemWidget({
@@ -33,19 +34,20 @@ class BeneficiaryItemWidget extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: null,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AmountSelectionPage()));
+              },
               style: ButtonStyle(
                 foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
                 backgroundColor:
                     WidgetStateProperty.all<Color>(Colors.indigo.shade400),
               ),
-              child: const Text(
-                "Recharge Now",
+              child: const Text("Recharge Now",
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 12,
-                  )
-              ),
+                  )),
             )
           ],
         ),

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/widgets/mobile_recharge_screen/widgets/beneficiary_item_widget.dart';
 
 class MobileRechargePage extends StatefulWidget {
-  const MobileRechargePage({super.key, required this.title});
-
-  final String title;
+  const MobileRechargePage({super.key});
 
   @override
   State<MobileRechargePage> createState() => _MobileRechargePage();
@@ -17,7 +15,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text("Select Beneficiary"),
       ),
       body: body(context),
     );
