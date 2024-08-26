@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/widgets/screen_amount_selection/widgets/amounts_enum.dart';
+import 'package:mobile_recharge_app/screens/screen_amount_selection/widgets/amounts_enum.dart';
 
 class RechargeAmountWidget extends StatefulWidget {
   const RechargeAmountWidget({super.key});

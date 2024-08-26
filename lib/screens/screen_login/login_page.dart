@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/widgets/screen_mobile_recharge/mobile_recharge_page.dart';
+import 'package:mobile_recharge_app/screens/screen_mobile_recharge/mobile_recharge_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

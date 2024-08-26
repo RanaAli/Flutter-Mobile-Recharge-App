@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/navigation/routes.dart';
 import 'package:mobile_recharge_app/ui_elements/my_app_bar.dart';
-import 'package:mobile_recharge_app/widgets/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
+import 'package:mobile_recharge_app/screens/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
 
 class MobileRechargePage extends StatefulWidget {
   const MobileRechargePage({super.key});
