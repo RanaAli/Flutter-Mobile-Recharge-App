@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/widgets/screen_amount_selection/widgets/recharge_amounts_widget.dart';
+import 'package:mobile_recharge_app/widgets/screen_confirmation/confirmation_page.dart';
 
 class AmountSelectionPage extends StatefulWidget {
   const AmountSelectionPage({super.key});
@@ -47,7 +48,10 @@ class _AmountSelectionPage extends State<AmountSelectionPage> {
           ],
         ),
         FilledButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ConfirmationPage()));
+          },
           child: const Text("Next"),
         ),
       ],
