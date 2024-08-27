@@ -14,11 +14,6 @@ class AddBeneficiaryPage extends StatefulWidget {
 
 class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
   AppDb db = AppDb.instance;
-  @override
-  void dispose() {
-    db.close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +58,7 @@ Padding body(BuildContext context, AppDb db) {
                 db.create(ModelBeneficiary(name: 'Rana', phone: 123));
 
                 printModels(db);
+                Navigator.of(context).pop('done');
               },
               style: buttonStyleBlue,
               child: const Text("Add"),

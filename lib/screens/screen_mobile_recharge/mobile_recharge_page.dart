@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/navigation/routes.dart';
-import 'package:mobile_recharge_app/ui_elements/my_app_bar.dart';
+import 'package:mobile_recharge_app/db/app_db.dart';
+import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/screens/screen_add_beneficiary/add_beneficiary_page.dart';
 import 'package:mobile_recharge_app/screens/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
+import 'package:mobile_recharge_app/ui_elements/my_app_bar.dart';
 
 class MobileRechargePage extends StatefulWidget {
   const MobileRechargePage({super.key});
@@ -12,6 +14,15 @@ class MobileRechargePage extends StatefulWidget {
 }
 
 class _MobileRechargePage extends State<MobileRechargePage> {
+  AppDb db = AppDb.instance;
+  List<ModelBeneficiary> list = [];
+
+  @override
+  void initState() {
+    refreshBeneficiaries();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,35 +31,60 @@ class _MobileRechargePage extends State<MobileRechargePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.indigo.shade400,
         tooltip: 'Add Beneficiary',
-        onPressed: () => navigateToAddBeneficiary(context),
+        onPressed: () => navigate(context),
         child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
     );
   }
 
-  CarouselSlider body(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 130,
-        enableInfiniteScroll: false,
-        initialPage: 0,
-        enlargeCenterPage: false,
-        viewportFraction: 0.4,
-        disableCenter: true,
-        padEnds: false,
-        pageSnapping: true,
-      ),
-      items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(color: Colors.transparent),
-              child: const BeneficiaryItemWidget(),
-            );
-          },
-        );
-      }).toList(),
+  void navigate(BuildContext context) async {
+    Navigator.of(context)
+        .push(
+            MaterialPageRoute(builder: (context) => const AddBeneficiaryPage()))
+        .then((value) {
+      refreshBeneficiaries();
+    });
+  }
+
+  refreshBeneficiaries() {
+    db.readAll().then((value) {
+      setState(() {
+        list = value;
+      });
+    });
+  }
+
+  Center body(BuildContext context) {
+    return Center(
+      child: list.isEmpty
+          ? const Text(
+              'No Notes yet',
+              style: TextStyle(color: Colors.black),
+            )
+          : CarouselSlider(
+              options: CarouselOptions(
+                height: 130,
+                enableInfiniteScroll: false,
+                initialPage: 0,
+                enlargeCenterPage: false,
+                viewportFraction: 0.4,
+                disableCenter: true,
+                padEnds: false,
+                pageSnapping: true,
+              ),
+              items: list.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration:
+                          const BoxDecoration(color: Colors.transparent),
+                      child: const BeneficiaryItemWidget(),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
     );
   }
 }
