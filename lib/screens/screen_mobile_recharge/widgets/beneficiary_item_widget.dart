@@ -17,7 +17,6 @@ class BeneficiaryItemWidget extends StatefulWidget {
 }
 
 class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,9 +26,18 @@ class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(widget.data.name, style: textStyleNormalBoldBlue),
+            Text(
+              widget.data.name,
+              style: textStyleNormalBoldBlue,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
             const SizedBox(height: 4),
-            Text(widget.data.phone.toString(), style: textStyleSmallGrey),
+            Text(
+              widget.data.phone.toString(),
+              style: textStyleSmallGrey,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () => navigateToAmountSelection(context),
