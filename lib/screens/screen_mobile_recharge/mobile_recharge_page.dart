@@ -56,6 +56,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
 
   Center body(BuildContext context) {
     return Center(
+      heightFactor: 1,
       child: list.isEmpty
           ? const Text(
               'No Notes yet',
@@ -79,7 +80,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
                       width: MediaQuery.of(context).size.width,
                       decoration:
                           const BoxDecoration(color: Colors.transparent),
-                      child: const BeneficiaryItemWidget(),
+                      child: BeneficiaryItemWidget(data: i),
                     );
                   },
                 );

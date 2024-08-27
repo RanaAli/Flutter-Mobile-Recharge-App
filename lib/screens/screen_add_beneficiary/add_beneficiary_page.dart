@@ -15,59 +15,61 @@ class AddBeneficiaryPage extends StatefulWidget {
 class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
   AppDb db = AppDb.instance;
 
+  final TextEditingController nameTextFieldController = TextEditingController();
+  final TextEditingController phoneTextFieldController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: getDefaultAppBar(context, "Add Beneficiary"),
-        body: body(context, db));
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Name", style: textStyleNormalBoldBlack),
+              TextField(
+                controller: nameTextFieldController,
+                style: textStyleSmallGrey,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Name',
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text("Phone Number", style: textStyleNormalBoldBlack),
+              TextField(
+                controller: phoneTextFieldController,
+                style: textStyleSmallGrey,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Phone Number',
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FilledButton(
+                    onPressed: () {
+                      db.create(ModelBeneficiary(
+                        name: nameTextFieldController.text,
+                        phone: int.parse(phoneTextFieldController.text),
+                      ));
+
+                      printModels(db);
+                      Navigator.of(context).pop('done');
+                    },
+                    style: buttonStyleBlue,
+                    child: const Text("Add"),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
-}
-
-Padding body(BuildContext context, AppDb db) {
-  printModels(db);
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Name", style: textStyleNormalBoldBlack),
-        const TextField(
-          obscureText: true,
-          style: textStyleSmallGrey,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Name',
-          ),
-        ),
-        const SizedBox(height: 8),
-        const Text("Phone Number", style: textStyleNormalBoldBlack),
-        const TextField(
-          obscureText: true,
-          style: textStyleSmallGrey,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Phone Number',
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FilledButton(
-              onPressed: () {
-                db.create(ModelBeneficiary(name: 'Rana', phone: 123));
-
-                printModels(db);
-                Navigator.of(context).pop('done');
-              },
-              style: buttonStyleBlue,
-              child: const Text("Add"),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
 }
 
 Future<void> printModels(AppDb db) async {

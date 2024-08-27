@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
 import 'package:mobile_recharge_app/navigation/routes.dart';
 import 'package:mobile_recharge_app/ui_elements/button_styles.dart';
 import 'package:mobile_recharge_app/ui_elements/text_styles.dart';
 
-class BeneficiaryItemWidget extends StatelessWidget {
+class BeneficiaryItemWidget extends StatefulWidget {
+  final ModelBeneficiary data;
+
+  @override
+  State<StatefulWidget> createState() => _BeneficiaryItemState();
+
   const BeneficiaryItemWidget({
     super.key,
+    required this.data,
   });
+}
+
+class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +27,9 @@ class BeneficiaryItemWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Rana Ahsan Ali", style: textStyleNormalBoldBlue),
+            Text(widget.data.name, style: textStyleNormalBoldBlue),
             const SizedBox(height: 4),
-            const Text("+971554623827", style: textStyleSmallGrey),
+            Text(widget.data.phone.toString(), style: textStyleSmallGrey),
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () => navigateToAmountSelection(context),
