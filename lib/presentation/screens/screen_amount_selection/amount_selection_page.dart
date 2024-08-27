@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/screens/screen_amount_selection/widgets/recharge_amounts_widget.dart';
-import 'package:mobile_recharge_app/screens/screen_confirmation/confirmation_page.dart';
+import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/recharge_amounts_widget.dart';
+import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/confirmation_page.dart';
 
 class AmountSelectionPage extends StatefulWidget {
   const AmountSelectionPage({super.key});

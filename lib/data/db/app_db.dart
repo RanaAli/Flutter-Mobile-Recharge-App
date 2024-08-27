@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppDb {
@@ -58,11 +58,10 @@ class AppDb {
     final result = await db.query('Beneficiary');
     return [
       for (final {
-      'name': name as String,
-      'phone': phone as int,
-      } in result)
+            'name': name as String,
+            'phone': phone as int,
+          } in result)
         ModelBeneficiary(name: name, phone: phone),
     ];
   }
-
 }

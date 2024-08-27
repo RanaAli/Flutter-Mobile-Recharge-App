@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
 import 'package:mobile_recharge_app/navigation/routes.dart';
-import 'package:mobile_recharge_app/ui_elements/button_styles.dart';
-import 'package:mobile_recharge_app/ui_elements/text_styles.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/button_styles.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
 class BeneficiaryItemWidget extends StatefulWidget {
   final ModelBeneficiary data;

@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_recharge_app/db/app_db.dart';
-import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
-import 'package:mobile_recharge_app/screens/screen_add_beneficiary/add_beneficiary_page.dart';
-import 'package:mobile_recharge_app/screens/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
-import 'package:mobile_recharge_app/ui_elements/my_app_bar.dart';
-import 'package:mobile_recharge_app/ui_elements/text_styles.dart';
+import 'package:mobile_recharge_app/data/db/app_db.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/presentation/screens/screen_add_beneficiary/add_beneficiary_page.dart';
+import 'package:mobile_recharge_app/presentation/screens/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/my_app_bar.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
 class MobileRechargePage extends StatefulWidget {
   const MobileRechargePage({super.key});

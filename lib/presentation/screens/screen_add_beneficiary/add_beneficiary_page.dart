@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_recharge_app/db/app_db.dart';
-import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
-import 'package:mobile_recharge_app/ui_elements/button_styles.dart';
-import 'package:mobile_recharge_app/ui_elements/my_app_bar.dart';
-import 'package:mobile_recharge_app/ui_elements/text_styles.dart';
+import 'package:mobile_recharge_app/data/db/app_db.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/button_styles.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/my_app_bar.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
 class AddBeneficiaryPage extends StatefulWidget {
   const AddBeneficiaryPage({super.key});
