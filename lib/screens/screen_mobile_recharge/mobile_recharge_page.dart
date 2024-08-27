@@ -5,6 +5,7 @@ import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
 import 'package:mobile_recharge_app/screens/screen_add_beneficiary/add_beneficiary_page.dart';
 import 'package:mobile_recharge_app/screens/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
 import 'package:mobile_recharge_app/ui_elements/my_app_bar.dart';
+import 'package:mobile_recharge_app/ui_elements/text_styles.dart';
 
 class MobileRechargePage extends StatefulWidget {
   const MobileRechargePage({super.key});
@@ -28,12 +29,14 @@ class _MobileRechargePage extends State<MobileRechargePage> {
     return Scaffold(
       appBar: getDefaultAppBar(context, "Select Beneficiary"),
       body: body(context),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo.shade400,
-        tooltip: 'Add Beneficiary',
-        onPressed: () => navigate(context),
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
-      ),
+      floatingActionButton: list.length < 5
+          ? FloatingActionButton(
+              backgroundColor: Colors.indigo.shade400,
+              tooltip: 'Add Beneficiary',
+              onPressed: () => navigate(context),
+              child: const Icon(Icons.add, color: Colors.white, size: 28),
+            )
+          : null,
     );
   }
 
@@ -62,29 +65,36 @@ class _MobileRechargePage extends State<MobileRechargePage> {
               'No Notes yet',
               style: TextStyle(color: Colors.black),
             )
-          : CarouselSlider(
-              options: CarouselOptions(
-                height: 130,
-                enableInfiniteScroll: false,
-                initialPage: 0,
-                enlargeCenterPage: false,
-                viewportFraction: 0.4,
-                disableCenter: true,
-                padEnds: false,
-                pageSnapping: true,
-              ),
-              items: list.map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration:
-                          const BoxDecoration(color: Colors.transparent),
-                      child: BeneficiaryItemWidget(data: i),
+          : Column(
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: 130,
+                    enableInfiniteScroll: false,
+                    initialPage: 0,
+                    enlargeCenterPage: false,
+                    viewportFraction: 0.4,
+                    disableCenter: true,
+                    padEnds: false,
+                    pageSnapping: true,
+                  ),
+                  items: list.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration:
+                              const BoxDecoration(color: Colors.transparent),
+                          child: BeneficiaryItemWidget(data: i),
+                        );
+                      },
                     );
-                  },
-                );
-              }).toList(),
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                if (list.length >= 5)
+                  const Text("You have reached max limit of Beneficiaries.", style: textStyleError,),
+              ],
             ),
     );
   }

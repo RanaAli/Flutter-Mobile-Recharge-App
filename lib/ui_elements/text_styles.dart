@@ -22,3 +22,9 @@ const textStyleNormalBoldBlack = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 14,
 );
+
+const textStyleError = TextStyle(
+  color: Colors.red,
+  fontWeight: FontWeight.normal,
+  fontSize: 14,
+);
