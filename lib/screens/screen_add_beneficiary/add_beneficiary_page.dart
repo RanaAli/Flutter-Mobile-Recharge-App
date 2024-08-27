@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_recharge_app/db/app_db.dart';
 import 'package:mobile_recharge_app/db/db_models/model_beneficiary.dart';
 import 'package:mobile_recharge_app/ui_elements/button_styles.dart';
@@ -32,6 +33,9 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
               TextField(
                 controller: nameTextFieldController,
                 style: textStyleSmallGrey,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(20)
+                ],
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Name',
