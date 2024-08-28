@@ -55,12 +55,9 @@ class AppDb {
 
   Future<List<ModelBeneficiary>> readAll() async {
     final db = await instance.database;
-    final result = await db.query('Beneficiary');
+    final result = await db.query('Beneficiary', orderBy: 'name ASC');
     return [
-      for (final {
-            'name': name as String,
-            'phone': phone as int,
-          } in result)
+      for (final {'name': name as String, 'phone': phone as int} in result)
         ModelBeneficiary(name: name, phone: phone),
     ];
   }

@@ -16,8 +16,8 @@ class ModelBeneficiary {
 
   Map<String, dynamic> toMap() {
     return {
-      'name': this.name,
-      'phone': this.phone,
+      'name': name,
+      'phone': phone,
     };
   }
 

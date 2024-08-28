@@ -8,8 +8,6 @@ class MockApiService {
   static final MockApiService instance = MockApiService._internal();
   static DioAdapter? _dioAdaptor;
 
-  AppDb db = AppDb.instance;
-
   MockApiService._internal();
 
   DioAdapter get mockApiService {
@@ -22,20 +20,34 @@ class MockApiService {
   }
 
   _setupMockApiService() {
-    _dioAdaptor = DioAdapter(dio: AppDio.instance.dio);
+    _dioAdaptor = DioAdapter(
+        dio: AppDio.instance.dio, matcher: const UrlRequestMatcher(), printLogs: true);
     readAllBeneficiaries();
   }
 
   Future<void> readAllBeneficiaries() async {
-    final list = await db.readAll();
 
     _dioAdaptor?.onGet(
       ApiConstants.getBeneficiaries,
-      (server) => server.reply(
-        200,
-        ModelBeneficiary.convertListToJson(list),
-        delay: const Duration(seconds: 5),
-      ),
+      (server) async {
+        var list = await AppDb.instance.readAll();
+        server.reply(
+          200,
+          ModelBeneficiary.convertListToJson(list),
+          delay: const Duration(seconds: 1),
+        );
+      },
+    );
+
+    _dioAdaptor?.onPost(
+      ApiConstants.getCreateBeneficiaries,
+      (server) async {
+        server.reply(
+          200,
+          {'result': 'true'},
+          delay: const Duration(seconds: 1),
+        );
+      },
     );
   }
 }

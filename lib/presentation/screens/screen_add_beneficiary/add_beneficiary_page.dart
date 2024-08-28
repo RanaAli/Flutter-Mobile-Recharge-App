@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_recharge_app/data/db/app_db.dart';
 import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/data/remote/api_service.dart';
 import 'package:mobile_recharge_app/presentation/ui_elements/button_styles.dart';
 import 'package:mobile_recharge_app/presentation/ui_elements/my_app_bar.dart';
 import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
@@ -33,9 +34,7 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
               TextField(
                 controller: nameTextFieldController,
                 style: textStyleSmallGrey,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(20)
-                ],
+                inputFormatters: [LengthLimitingTextInputFormatter(20)],
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Name',
@@ -56,14 +55,20 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FilledButton(
-                    onPressed: () {
-                      db.create(ModelBeneficiary(
+                    onPressed: () async {
+                      var beneficiary = ModelBeneficiary(
                         name: nameTextFieldController.text,
                         phone: int.parse(phoneTextFieldController.text),
-                      ));
+                      );
 
-                      printModels(db);
-                      Navigator.of(context).pop('done');
+                      final response = await ApiService.instance
+                          .createBeneficiaries(beneficiary);
+
+                      if (response.statusCode == 200) {
+                        await db.create(beneficiary);
+                        printModels(db);
+                        Navigator.of(context).pop('done');
+                      }
                     },
                     style: buttonStyleBlue,
                     child: const Text("Add"),
