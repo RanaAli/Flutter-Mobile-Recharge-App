@@ -26,23 +26,32 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
     );
   }
 
-  ListTile amountListTile(AmountsEnum value) {
-    return ListTile(
-      onTap: () {
-        setState(() {
-          _character = value;
-        });
-      },
-      title: Text(value.text),
-      leading: Radio<AmountsEnum>(
-        value: value,
-        groupValue: _character,
-        onChanged: (AmountsEnum? value) {
-          setState(() {
-            _character = value;
-          });
-        },
-      ),
+  Column amountListTile(AmountsEnum value) {
+    return Column(
+      children: [
+        ListTile(
+          onTap: () {
+            setState(() {
+              _character = value;
+            });
+          },
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.grey, width: 1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          title: Text(value.text),
+          leading: Radio<AmountsEnum>(
+            value: value,
+            groupValue: _character,
+            onChanged: (AmountsEnum? value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+        ),
+        const SizedBox(height: 4),
+      ],
     );
   }
 }

@@ -7,13 +7,13 @@ import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 class BeneficiaryItemWidget extends StatefulWidget {
   final ModelBeneficiary data;
 
-  @override
-  State<StatefulWidget> createState() => _BeneficiaryItemState();
-
   const BeneficiaryItemWidget({
     super.key,
     required this.data,
   });
+
+  @override
+  State<StatefulWidget> createState() => _BeneficiaryItemState();
 }
 
 class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
@@ -40,7 +40,7 @@ class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => navigateToAmountSelection(context),
+              onPressed: () => navigateToAmountSelection(context, widget.data),
               style: buttonStyleBlue,
               child: const Text("Recharge Now", style: textStyleWhite),
             )

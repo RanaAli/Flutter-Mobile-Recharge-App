@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/recharge_amounts_widget.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/confirmation_page.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
 class AmountSelectionPage extends StatefulWidget {
-  const AmountSelectionPage({super.key});
+  final ModelBeneficiary data;
+
+  const AmountSelectionPage({super.key, required this.data});
 
   @override
-  State<StatefulWidget> createState() => _AmountSelectionPage();
+  State<StatefulWidget> createState() => _AmountSelectionState();
 }
 
-class _AmountSelectionPage extends State<AmountSelectionPage> {
+class _AmountSelectionState extends State<AmountSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,44 +21,44 @@ class _AmountSelectionPage extends State<AmountSelectionPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Select Amount"),
       ),
-      body: body(context),
-    );
-  }
-
-  Column body(BuildContext context) {
-    return Column(
-      children: [
-        const Row(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           children: [
-            Text("Name:"),
-            SizedBox(width: 8),
-            Text("Rana Ahsan Ali"),
+            Row(
+              children: [
+                const Text("Name:"),
+                const SizedBox(width: 8),
+                Text(widget.data.name, style: textStyleNormalBoldBlue),
+              ],
+            ),
+            Row(
+              children: [
+                const Text("Number:"),
+                const SizedBox(width: 8),
+                Text(widget.data.phone, style: textStyleNormalBoldBlack),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const RechargeAmountWidget(),
+            const SizedBox(height: 8),
+            const Column(
+              children: [
+                Text("Available Amount:"),
+                Text("AED 100", style: textStyleNormalBoldBlack),
+              ],
+            ),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ConfirmationPage()));
+              },
+              child: const Text("Next"),
+            ),
           ],
         ),
-        const Row(
-          children: [
-            Text("Number:"),
-            SizedBox(width: 8),
-            Text("+971554623827"),
-          ],
-        ),
-        const SizedBox(height: 8),
-        const RechargeAmountWidget(),
-        const SizedBox(height: 8),
-        const Column(
-          children: [
-            Text("Available Amount:"),
-            Text("AED 100"),
-          ],
-        ),
-        FilledButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ConfirmationPage()));
-          },
-          child: const Text("Next"),
-        ),
-      ],
+      ),
     );
   }
 }
