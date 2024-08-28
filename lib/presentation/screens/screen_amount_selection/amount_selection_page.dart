@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/data/db/app_db.dart';
 import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
 import 'package:mobile_recharge_app/navigation/routes.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/amounts_enum.dart';
@@ -17,6 +18,22 @@ class AmountSelectionPage extends StatefulWidget {
 
 class _AmountSelectionState extends State<AmountSelectionPage> {
   AmountsEnum amountsEnum = AmountsEnum.five;
+  AppDb db = AppDb.instance;
+  int availableAmount = 0;
+
+  _readAvailableAmountFromDb() {
+    db.readAvailableAmount().then((value) {
+      setState(() {
+        availableAmount = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    _readAvailableAmountFromDb();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +62,13 @@ class _AmountSelectionState extends State<AmountSelectionPage> {
             ),
             const SizedBox(height: 8),
             RechargeAmountWidget(callback: (value) {
-            amountsEnum = value;
-            },),
+              amountsEnum = value;
+            }),
             const SizedBox(height: 8),
-            const Column(
+            Column(
               children: [
-                Text("Available Amount:"),
-                Text("AED 100", style: textStyleNormalBoldBlack),
+                const Text("Available Amount:"),
+                Text("AED $availableAmount", style: textStyleNormalBoldBlack),
               ],
             ),
             const SizedBox(height: 16),

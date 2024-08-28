@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/data/db/app_db.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/model_confirmation_page.dart';
 import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
@@ -8,29 +9,39 @@ class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage({super.key, required this.data});
 
   @override
-  State<StatefulWidget> createState() => _ConfirmationPage();
+  State<StatefulWidget> createState() => _ConfirmationState();
 }
 
-class _ConfirmationPage extends State<ConfirmationPage> {
-  int availableAmount = 100;
+class _ConfirmationState extends State<ConfirmationPage> {
+  AppDb db = AppDb.instance;
+  int availableAmount = 0;
   int chargeAmount = 1;
   var totalCharges = 0;
 
   @override
+  void initState() {
+    _readAvailableAmountFromDb();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    totalCharges = (availableAmount -
-        (chargeAmount + widget.data.amountEnum.amount));
+    totalCharges =
+        (availableAmount - (chargeAmount + widget.data.amountEnum.amount));
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Confirmation"),
       ),
       body: body(context),
     );
+  }
+
+  _readAvailableAmountFromDb() {
+    db.readAvailableAmount().then((value) {
+      availableAmount = value;
+    });
   }
 
   Padding body(BuildContext context) {
