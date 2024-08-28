@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/data/db/app_db.dart';
 import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/data/remote/api_service.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_add_beneficiary/add_beneficiary_page.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
 import 'package:mobile_recharge_app/presentation/ui_elements/my_app_bar.dart';
@@ -16,7 +17,8 @@ class MobileRechargePage extends StatefulWidget {
 
 class _MobileRechargePage extends State<MobileRechargePage> {
   AppDb db = AppDb.instance;
-  List<ModelBeneficiary> list = [];
+
+  // List<ModelBeneficiary> list = [];
 
   @override
   void initState() {
@@ -27,17 +29,19 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getDefaultAppBar(context, "Select Beneficiary"),
-      body: body(context),
-      floatingActionButton: list.length < 5
-          ? FloatingActionButton(
-              backgroundColor: Colors.indigo.shade400,
-              tooltip: 'Add Beneficiary',
-              onPressed: () => navigate(context),
-              child: const Icon(Icons.add, color: Colors.white, size: 28),
-            )
-          : null,
-    );
+        appBar: getDefaultAppBar(context, "Select Beneficiary"),
+        body: body(context),
+        floatingActionButton:
+            // list.length < 5
+            //     ?
+            FloatingActionButton(
+          backgroundColor: Colors.indigo.shade400,
+          tooltip: 'Add Beneficiary',
+          onPressed: () => navigate(context),
+          child: const Icon(Icons.add, color: Colors.white, size: 28),
+        )
+        // : null,
+        );
   }
 
   void navigate(BuildContext context) async {
@@ -52,58 +56,77 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   refreshBeneficiaries() {
     db.readAll().then((value) {
       setState(() {
-        list = value;
+        // list = value;
       });
     });
   }
 
-  Center body(BuildContext context) {
-    return Center(
-      heightFactor: 1,
-      child: list.isEmpty
-          ? Container(
-              padding: const EdgeInsets.all(16),
-              alignment: Alignment.center,
-              child: const Text(
-                'No Beneficiaries added yet. \n Click on + button to add one.',
-                style: textStyleNormalBoldBlack,
-                textAlign: TextAlign.center,
-              ),
-            )
-          : Column(
-              children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 130,
-                    enableInfiniteScroll: false,
-                    initialPage: 0,
-                    enlargeCenterPage: false,
-                    viewportFraction: 0.4,
-                    disableCenter: true,
-                    padEnds: false,
-                    pageSnapping: true,
-                  ),
-                  items: list.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration:
-                              const BoxDecoration(color: Colors.transparent),
-                          child: BeneficiaryItemWidget(data: i),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 16),
-                if (list.length >= 5)
-                  const Text(
-                    "You have reached max limit of Beneficiaries.",
-                    style: textStyleError,
-                  ),
-              ],
-            ),
+  FutureBuilder body(BuildContext context) {
+    return FutureBuilder(
+      future: ApiService.instance.getBeneficiaries(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            var list =
+                ModelBeneficiary.fromJSonToList(snapshot.data.toString());
+
+            return Center(
+              heightFactor: 1,
+              child: list.isEmpty
+                  ? Container(
+                      padding: const EdgeInsets.all(16),
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'No Beneficiaries added yet. \n Click on + button to add one.',
+                        style: textStyleNormalBoldBlack,
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        CarouselSlider(
+                          options: CarouselOptions(
+                            height: 130,
+                            enableInfiniteScroll: false,
+                            initialPage: 0,
+                            enlargeCenterPage: false,
+                            viewportFraction: 0.4,
+                            disableCenter: true,
+                            padEnds: false,
+                            pageSnapping: true,
+                          ),
+                          items: list.map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.transparent),
+                                  child: BeneficiaryItemWidget(data: i),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(height: 16),
+                        if (list.length >= 5)
+                          const Text(
+                            "You have reached max limit of Beneficiaries.",
+                            style: textStyleError,
+                          ),
+                      ],
+                    ),
+            );
+          } else {
+            return Text(snapshot.error.toString(),
+                style: const TextStyle(color: Colors.red));
+          }
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }

@@ -1,45 +1,46 @@
 import 'dart:convert';
 
+import 'package:json_annotation/json_annotation.dart';
+
+part 'model_beneficiary.g.dart';
+
+@JsonSerializable()
 class ModelBeneficiary {
   final String name;
   final int phone;
 
-  const ModelBeneficiary({
+  ModelBeneficiary({
     required this.name,
     required this.phone,
   });
 
-  Map<String, Object?> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      'name': name,
-      'phone': phone,
+      'name': this.name,
+      'phone': this.phone,
     };
   }
 
-  @override
-  String toString() {
-    return 'ModelBeneficiary{name: $name, phone: $phone}';
-  }
-
-  factory ModelBeneficiary.fromJson(Map<String, dynamic> json) {
+  factory ModelBeneficiary.fromMap(Map<String, dynamic> map) {
     return ModelBeneficiary(
-      name: json['name'],
-      phone: json['phone'],
+      name: map['name'] as String,
+      phone: map['phone'] as int,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'phone': phone,
-    };
+  factory ModelBeneficiary.fromJson(Map<String, dynamic> json) =>
+      _$ModelBeneficiaryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ModelBeneficiaryToJson(this);
+
+  static String convertListToJson(List<ModelBeneficiary> words) {
+    List<Map<String, dynamic>> jsonData =
+        words.map((word) => word.toMap()).toList();
+    return jsonEncode(jsonData);
   }
-}
 
-String modelBeneficiaryToJson(ModelBeneficiary beneficiary) {
-  return jsonEncode(beneficiary.toJson());
-}
-
-ModelBeneficiary jsonToModelBeneficiary(String jsonString) {
-  return ModelBeneficiary.fromJson(jsonDecode(jsonString));
+  static List<ModelBeneficiary> fromJSonToList(String json) {
+    List<dynamic> jsonData = jsonDecode(json);
+    return jsonData.map((map) => ModelBeneficiary.fromMap(map)).toList();
+  }
 }

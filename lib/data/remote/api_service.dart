@@ -8,6 +8,6 @@ class ApiService {
   static final ApiService instance = ApiService._singleton();
 
   Future<Response> getBeneficiaries() {
-    return AppDio.instance.dio.get(ApiConstants.getBeneficiaries);
+    return AppDio.instance.dio.request(ApiConstants.getBeneficiaries);
   }
 }
