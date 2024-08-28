@@ -17,6 +17,11 @@ class AddBeneficiaryPage extends StatefulWidget {
 class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
   AppDb db = AppDb.instance;
 
+  bool showLoading = false;
+
+  String? _nameErrorText;
+  String? _phoneErrorText;
+
   final TextEditingController nameTextFieldController = TextEditingController();
   final TextEditingController phoneTextFieldController =
       TextEditingController();
@@ -35,9 +40,10 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
                 controller: nameTextFieldController,
                 style: textStyleSmallGrey,
                 inputFormatters: [LengthLimitingTextInputFormatter(20)],
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   labelText: 'Name',
+                  errorText: _nameErrorText,
                 ),
               ),
               const SizedBox(height: 8),
@@ -45,34 +51,58 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
               TextField(
                 controller: phoneTextFieldController,
                 style: textStyleSmallGrey,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   labelText: 'Phone Number',
+                  errorText: _phoneErrorText,
                 ),
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  FilledButton(
-                    onPressed: () async {
-                      var beneficiary = ModelBeneficiary(
-                        name: nameTextFieldController.text,
-                        phone: int.parse(phoneTextFieldController.text),
-                      );
+                  if (showLoading &&
+                      _phoneErrorText == null &&
+                      _nameErrorText == null)
+                    const CircularProgressIndicator()
+                  else
+                    FilledButton(
+                      onPressed: () async {
+                        setState(() {
+                          _phoneErrorText = validateTextField(
+                              phoneTextFieldController.value.text);
+                          _nameErrorText = validateTextField(
+                              nameTextFieldController.value.text);
+                        });
 
-                      final response = await ApiService.instance
-                          .createBeneficiaries(beneficiary);
+                        if (_phoneErrorText == null && _nameErrorText == null) {
+                          setState(
+                            () {
+                              showLoading = true;
+                            },
+                          );
+                          var beneficiary = ModelBeneficiary(
+                            name: nameTextFieldController.text,
+                            phone: phoneTextFieldController.text,
+                          );
 
-                      if (response.statusCode == 200) {
-                        await db.create(beneficiary);
-                        printModels(db);
-                        Navigator.of(context).pop('done');
-                      }
-                    },
-                    style: buttonStyleBlue,
-                    child: const Text("Add"),
-                  ),
+                          final response = await ApiService.instance
+                              .createBeneficiaries(beneficiary);
+
+                          if (response.statusCode == 200) {
+                            await db.create(beneficiary);
+                            setState(() {
+                              showLoading = false;
+                            });
+                            printModels(db);
+                            Navigator.of(context).pop('done');
+                          }
+                        }
+                      },
+                      style: buttonStyleBlue,
+                      child: const Text("Add"),
+                    ),
                 ],
               ),
             ],
@@ -83,4 +113,11 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
 
 Future<void> printModels(AppDb db) async {
   print(await db.readAll());
+}
+
+String? validateTextField(String value) {
+  if (value.isEmpty) {
+    return "Required";
+  }
+  return null;
 }

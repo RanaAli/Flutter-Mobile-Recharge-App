@@ -32,8 +32,9 @@ class AppDb {
     return await db.execute(
       'CREATE TABLE '
       'Beneficiary('
+      'id INTEGER PRIMARY KEY AUTOINCREMENT,'
       'name TEXT NOT NULL, '
-      'phone INTEGER PRIMARY KEY '
+      'phone TEXT NOT NULL '
       ')',
     );
   }
@@ -57,7 +58,7 @@ class AppDb {
     final db = await instance.database;
     final result = await db.query('Beneficiary', orderBy: 'name ASC');
     return [
-      for (final {'name': name as String, 'phone': phone as int} in result)
+      for (final {'name': name as String, 'phone': phone as String} in result)
         ModelBeneficiary(name: name, phone: phone),
     ];
   }

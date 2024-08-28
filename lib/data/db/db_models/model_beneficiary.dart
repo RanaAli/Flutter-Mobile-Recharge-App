@@ -6,10 +6,12 @@ part 'model_beneficiary.g.dart';
 
 @JsonSerializable()
 class ModelBeneficiary {
+  int? id;
   final String name;
-  final int phone;
+  final String phone;
 
   ModelBeneficiary({
+    this.id,
     required this.name,
     required this.phone,
   });
@@ -24,7 +26,7 @@ class ModelBeneficiary {
   factory ModelBeneficiary.fromMap(Map<String, dynamic> map) {
     return ModelBeneficiary(
       name: map['name'] as String,
-      phone: map['phone'] as int,
+      phone: map['phone'] as String,
     );
   }
 

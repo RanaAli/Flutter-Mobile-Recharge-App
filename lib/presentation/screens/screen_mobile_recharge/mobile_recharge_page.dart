@@ -19,7 +19,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   AppDb db = AppDb.instance;
 
   List<ModelBeneficiary> list = [];
-  bool loading = false;
+  bool showLoading = false;
 
   @override
   void initState() {
@@ -55,7 +55,10 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   }
 
   refreshBeneficiaries() async {
-    loading = true;
+    setState(() {
+      showLoading = true;
+    });
+
     final response = await ApiService.instance.getBeneficiaries();
 
     if (response.statusCode == 200) {
@@ -64,7 +67,9 @@ class _MobileRechargePage extends State<MobileRechargePage> {
       });
     }
 
-    loading = false;
+    setState(() {
+      showLoading = false;
+    });
 
     db.readAll().then((value) {
       setState(() {
@@ -74,7 +79,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   }
 
   Center body(BuildContext context) {
-    if (loading) {
+    if (showLoading) {
       return Center(
         heightFactor: 1,
         child: Container(
