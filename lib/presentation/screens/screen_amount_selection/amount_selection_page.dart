@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/navigation/routes.dart';
+import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/amounts_enum.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/recharge_amounts_widget.dart';
-import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/confirmation_page.dart';
+import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/model_confirmation_page.dart';
 import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
 class AmountSelectionPage extends StatefulWidget {
@@ -14,6 +16,8 @@ class AmountSelectionPage extends StatefulWidget {
 }
 
 class _AmountSelectionState extends State<AmountSelectionPage> {
+  AmountsEnum amountsEnum = AmountsEnum.five;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,9 @@ class _AmountSelectionState extends State<AmountSelectionPage> {
               ],
             ),
             const SizedBox(height: 8),
-            const RechargeAmountWidget(),
+            RechargeAmountWidget(callback: (value) {
+            amountsEnum = value;
+            },),
             const SizedBox(height: 8),
             const Column(
               children: [
@@ -50,10 +56,10 @@ class _AmountSelectionState extends State<AmountSelectionPage> {
             ),
             const SizedBox(height: 16),
             FilledButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ConfirmationPage()));
-              },
+              onPressed: () => navigateToConfirmation(
+                  context,
+                  ModelConfirmationPage(
+                      beneficiary: widget.data, amountEnum: amountsEnum)),
               child: const Text("Next"),
             ),
           ],

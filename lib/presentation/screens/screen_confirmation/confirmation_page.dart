@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/model_confirmation_page.dart';
 
 class ConfirmationPage extends StatefulWidget {
-  const ConfirmationPage({super.key});
+  final ModelConfirmationPage data;
+
+  const ConfirmationPage({super.key, required this.data});
 
   @override
   State<StatefulWidget> createState() => _ConfirmationPage();
@@ -23,25 +26,25 @@ class _ConfirmationPage extends State<ConfirmationPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Row(
+        Row(
           children: [
             Text("Name:"),
             SizedBox(width: 8),
-            Text("Rana Ahsan Ali"),
+            Text(widget.data.beneficiary.name),
           ],
         ),
-        const Row(
+        Row(
           children: [
             Text("Number:"),
             SizedBox(width: 8),
-            Text("+971554623827"),
+            Text(widget.data.beneficiary.phone),
           ],
         ),
-        const Row(
+        Row(
           children: [
             Text("Topup Amount:"),
             SizedBox(width: 8),
-            Text("AED 10"),
+            Text("${widget.data.amountEnum.value}"),
           ],
         ),
         const Row(

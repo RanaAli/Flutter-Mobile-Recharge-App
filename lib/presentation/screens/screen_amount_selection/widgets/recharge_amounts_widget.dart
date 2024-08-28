@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/amounts_enum.dart';
 
 class RechargeAmountWidget extends StatefulWidget {
-  const RechargeAmountWidget({super.key});
+  final Function(AmountsEnum) callback;
+
+  const RechargeAmountWidget({super.key, required this.callback});
 
   @override
   State<RechargeAmountWidget> createState() => _RechargeAmountWidgetState();
 }
 
 class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
-  AmountsEnum? _character = AmountsEnum.five;
+  AmountsEnum? selection = AmountsEnum.five;
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +34,21 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
         ListTile(
           onTap: () {
             setState(() {
-              _character = value;
+              selection = value;
             });
           },
           shape: RoundedRectangleBorder(
             side: const BorderSide(color: Colors.grey, width: 1),
             borderRadius: BorderRadius.circular(8),
           ),
-          title: Text(value.text),
+          title: Text(value.value),
           leading: Radio<AmountsEnum>(
             value: value,
-            groupValue: _character,
+            groupValue: selection,
             onChanged: (AmountsEnum? value) {
               setState(() {
-                _character = value;
+                widget.callback(value!);
+                selection = value;
               });
             },
           ),

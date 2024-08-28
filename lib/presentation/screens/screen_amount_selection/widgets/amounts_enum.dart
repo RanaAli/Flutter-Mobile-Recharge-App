@@ -7,7 +7,7 @@ enum AmountsEnum {
   seventyFive('AED 75'),
   hundred('AED 100');
 
-  const AmountsEnum(this.text);
+  const AmountsEnum(this.value);
 
-  final String text;
+  final String value;
 }
