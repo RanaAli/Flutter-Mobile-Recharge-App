@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/data/remote/mock_api_service.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_login/login_page.dart';
 
 void main() {
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MockApiService.instance.mockApiService;
     return MaterialApp(
       title: 'Flutter Mobile Recharge App',
       theme: ThemeData(
