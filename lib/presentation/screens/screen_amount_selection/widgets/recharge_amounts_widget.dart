@@ -41,7 +41,7 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
             side: const BorderSide(color: Colors.grey, width: 1),
             borderRadius: BorderRadius.circular(8),
           ),
-          title: Text(value.value),
+          title: Text(value.text),
           leading: Radio<AmountsEnum>(
             value: value,
             groupValue: selection,

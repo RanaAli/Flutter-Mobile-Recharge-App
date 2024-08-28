@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/model_confirmation_page.dart';
+import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
 class ConfirmationPage extends StatefulWidget {
   final ModelConfirmationPage data;
@@ -11,58 +12,98 @@ class ConfirmationPage extends StatefulWidget {
 }
 
 class _ConfirmationPage extends State<ConfirmationPage> {
+  int availableAmount = 100;
+  int chargeAmount = 1;
+  var totalCharges = 0;
+
   @override
   Widget build(BuildContext context) {
+    totalCharges = (availableAmount -
+        (chargeAmount + widget.data.amountEnum.amount));
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .inversePrimary,
         title: const Text("Confirmation"),
       ),
       body: body(context),
     );
   }
 
-  Column body(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            Text("Name:"),
-            SizedBox(width: 8),
-            Text(widget.data.beneficiary.name),
-          ],
-        ),
-        Row(
-          children: [
-            Text("Number:"),
-            SizedBox(width: 8),
-            Text(widget.data.beneficiary.phone),
-          ],
-        ),
-        Row(
-          children: [
-            Text("Topup Amount:"),
-            SizedBox(width: 8),
-            Text("${widget.data.amountEnum.value}"),
-          ],
-        ),
-        const Row(
-          children: [
-            Text("Charges:"),
-            SizedBox(width: 8),
-            Text("AED 1"),
-          ],
-        ),
-        const Row(
-          children: [
-            Text("Balance Amount:"),
-            SizedBox(width: 8),
-            Text("AED 89"),
-          ],
-        ),
-        FilledButton(onPressed: () {}, child: const Text("Yallah")),
-      ],
+  Padding body(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Name:"),
+              const SizedBox(width: 8),
+              Text(widget.data.beneficiary.name,
+                  style: textStyleNormalBoldBlue),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Number:"),
+              const SizedBox(width: 8),
+              Text(
+                widget.data.beneficiary.phone,
+                style: textStyleNormalBoldBlack,
+              ),
+            ],
+          ),
+          const Divider(height: 20, color: Colors.grey),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Available Amount:"),
+              const SizedBox(width: 8),
+              Text("Aed $availableAmount"),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Topup Amount:"),
+              const SizedBox(width: 8),
+              Text(widget.data.amountEnum.text, style: textStyleError),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Charges:"),
+              const SizedBox(width: 8),
+              Text("Aed $chargeAmount", style: textStyleError),
+            ],
+          ),
+          const Divider(height: 20, color: Colors.grey),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Balance Amount:"),
+              const SizedBox(width: 8),
+              Text("Aed $totalCharges"),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FilledButton(onPressed: () {}, child: const Text("Yallah")),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

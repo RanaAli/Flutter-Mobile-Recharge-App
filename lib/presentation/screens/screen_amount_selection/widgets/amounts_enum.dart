@@ -1,13 +1,14 @@
 enum AmountsEnum {
-  five('AED 5'),
-  ten('AED 10'),
-  twenty('AED 20'),
-  thirty('AED 30'),
-  fifty('AED 50'),
-  seventyFive('AED 75'),
-  hundred('AED 100');
+  five('Aed 5', 5),
+  ten('Aed 10', 10),
+  twenty('Aed 20', 20),
+  thirty('Aed 30', 30),
+  fifty('Aed 50', 50),
+  seventyFive('Aed 75', 75),
+  hundred('Aed 100', 100);
 
-  const AmountsEnum(this.value);
+  const AmountsEnum(this.text, this.amount);
 
-  final String value;
+  final int amount;
+  final String text;
 }
