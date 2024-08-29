@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/data/db/app_db.dart';
 import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_user.dart';
 import 'package:mobile_recharge_app/data/remote/api_service.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_add_beneficiary/add_beneficiary_page.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_mobile_recharge/widgets/beneficiary_item_widget.dart';
@@ -19,6 +20,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   AppDb db = AppDb.instance;
 
   List<ModelBeneficiary> list = [];
+  late User user;
   bool showLoading = false;
 
   @override
@@ -76,6 +78,12 @@ class _MobileRechargePage extends State<MobileRechargePage> {
         list = value;
       });
     });
+
+    db.readUser().then((value) {
+      setState(() {
+        user = value;
+      });
+    });
   }
 
   Center body(BuildContext context) {
@@ -122,7 +130,11 @@ class _MobileRechargePage extends State<MobileRechargePage> {
                           width: MediaQuery.of(context).size.width,
                           decoration:
                               const BoxDecoration(color: Colors.transparent),
-                          child: BeneficiaryItemWidget(data: i),
+                          child: BeneficiaryItemWidget(
+                            data: i,
+                            maxPerBeneficiaryAmount:
+                                user.maxPerBeneficiaryAmount,
+                          ),
                         );
                       },
                     );

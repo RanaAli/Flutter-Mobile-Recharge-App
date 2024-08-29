@@ -6,10 +6,12 @@ import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
 
 class BeneficiaryItemWidget extends StatefulWidget {
   final ModelBeneficiary data;
+  final int maxPerBeneficiaryAmount;
 
   const BeneficiaryItemWidget({
     super.key,
     required this.data,
+    required this.maxPerBeneficiaryAmount,
   });
 
   @override
@@ -48,7 +50,20 @@ class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
             ),
             const SizedBox(height: 4),
             ElevatedButton(
-              onPressed: () => navigateToAmountSelection(context, widget.data),
+              onPressed: () {
+                if (widget.data.pastToppedUpAmount >=
+                    widget.maxPerBeneficiaryAmount) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    duration: Duration(seconds: 1),
+                    content: Text(
+                      "Max TopUp reached!",
+                      style: textStyleError,
+                    ),
+                  ));
+                } else {
+                  navigateToAmountSelection(context, widget.data);
+                }
+              },
               style: buttonStyleBlue,
               child: const Text("Recharge Now", style: textStyleWhite),
             )
