@@ -40,25 +40,13 @@ class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
               style: textStyleSmallGrey,
               textAlign: TextAlign.center,
             ),
-            Text(
-              widget.data.pastToppedUpAmount.toString(),
-              style: const TextStyle(
-                fontSize: 10,
-                color: Colors.red,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 4),
             ElevatedButton(
               onPressed: () {
                 if (widget.data.pastToppedUpAmount >=
                     widget.maxPerBeneficiaryAmount) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     duration: Duration(seconds: 1),
-                    content: Text(
-                      "Max TopUp reached!",
-                      style: textStyleError,
-                    ),
+                    content: Text("Max TopUp reached!", style: textStyleError),
                   ));
                 } else {
                   navigateToAmountSelection(context, widget.data);

@@ -6,6 +6,11 @@ import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/con
 import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/model_confirmation_page.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_mobile_recharge/mobile_recharge_page.dart';
 
+void navigateToBenSelectScreen(BuildContext context) {
+  Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const MobileRechargePage()));
+}
+
 void navigateToAmountSelection(BuildContext context, ModelBeneficiary ben) {
   Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => AmountSelectionPage(data: ben)));

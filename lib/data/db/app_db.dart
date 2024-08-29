@@ -15,7 +15,7 @@ class AppDb {
     id: 1,
     availableAmount: 100,
     spentAmount: 0,
-    maxMonthlyAmount: 50,
+    maxMonthlyAmount: 3000,
     maxPerBeneficiaryAmount: 10,
   );
 

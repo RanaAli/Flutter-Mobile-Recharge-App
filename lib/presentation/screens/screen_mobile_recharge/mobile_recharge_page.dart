@@ -13,18 +13,25 @@ class MobileRechargePage extends StatefulWidget {
   const MobileRechargePage({super.key});
 
   @override
-  State<MobileRechargePage> createState() => _MobileRechargePage();
+  State<MobileRechargePage> createState() => _MobileRechargeState();
 }
 
-class _MobileRechargePage extends State<MobileRechargePage> {
+class _MobileRechargeState extends State<MobileRechargePage> {
   AppDb db = AppDb.instance;
 
   List<ModelBeneficiary> list = [];
-  late User user;
+  User user = User(
+    id: -1,
+    availableAmount: 0,
+    spentAmount: 0,
+    maxMonthlyAmount: 0,
+    maxPerBeneficiaryAmount: 0,
+  );
   bool showLoading = false;
 
   @override
   void initState() {
+    user = db.user;
     refreshBeneficiaries();
     super.initState();
   }
@@ -32,19 +39,17 @@ class _MobileRechargePage extends State<MobileRechargePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: getDefaultAppBar(context, "Select Beneficiary"),
-        body: body(context),
-        floatingActionButton:
-            // list.length < 5
-            //     ?
-            FloatingActionButton(
-          backgroundColor: Colors.indigo.shade400,
-          tooltip: 'Add Beneficiary',
-          onPressed: () => navigate(context),
-          child: const Icon(Icons.add, color: Colors.white, size: 28),
-        )
-        // : null,
-        );
+      appBar: getDefaultAppBar(context, "Select Beneficiary"),
+      body: body(context),
+      floatingActionButton: list.length < 5
+          ? FloatingActionButton(
+              backgroundColor: Colors.indigo.shade400,
+              tooltip: 'Add Beneficiary',
+              onPressed: () => navigate(context),
+              child: const Icon(Icons.add, color: Colors.white, size: 28),
+            )
+          : null,
+    );
   }
 
   void navigate(BuildContext context) async {
@@ -69,10 +74,6 @@ class _MobileRechargePage extends State<MobileRechargePage> {
       });
     }
 
-    setState(() {
-      showLoading = false;
-    });
-
     db.readAll().then((value) {
       setState(() {
         list = value;
@@ -83,6 +84,10 @@ class _MobileRechargePage extends State<MobileRechargePage> {
       setState(() {
         user = value;
       });
+    });
+
+    setState(() {
+      showLoading = false;
     });
   }
 
@@ -114,7 +119,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
               children: [
                 CarouselSlider(
                   options: CarouselOptions(
-                    height: 140,
+                    height: 130,
                     enableInfiniteScroll: false,
                     initialPage: 0,
                     enlargeCenterPage: false,
