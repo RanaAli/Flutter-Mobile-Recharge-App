@@ -106,7 +106,7 @@ class _MobileRechargePage extends State<MobileRechargePage> {
               children: [
                 CarouselSlider(
                   options: CarouselOptions(
-                    height: 130,
+                    height: 140,
                     enableInfiniteScroll: false,
                     initialPage: 0,
                     enlargeCenterPage: false,

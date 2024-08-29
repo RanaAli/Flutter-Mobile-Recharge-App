@@ -52,15 +52,19 @@ class AppDb {
       ')',
     );
 
-    await db.insert(_TABLE_USER, user.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(
+      _TABLE_USER,
+      user.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
 
     await db.execute(
       'CREATE TABLE '
       '$_TABLE_BENEFICIARIES'
-      '( id INTEGER PRIMARY KEY AUTOINCREMENT,'
+      '( id INTEGER PRIMARY KEY AUTOINCREMENT, '
       'name TEXT NOT NULL, '
-      'phone TEXT NOT NULL '
+      'phone TEXT NOT NULL, '
+      'pastToppedUpAmount INTEGER NOT NULL '
       ')',
     );
   }
@@ -83,10 +87,24 @@ class AppDb {
   Future<List<ModelBeneficiary>> readAll() async {
     final db = await instance.database;
     final result = await db.query(_TABLE_BENEFICIARIES, orderBy: 'name ASC');
-    return [
-      for (final {'name': name as String, 'phone': phone as String} in result)
-        ModelBeneficiary(name: name, phone: phone),
+    var list = [
+      for (final {
+            'id': id as int,
+            'name': name as String,
+            'phone': phone as String,
+            'pastToppedUpAmount': pastToppedUpAmount as int,
+          } in result)
+        ModelBeneficiary(
+          id: id,
+          name: name,
+          phone: phone,
+          pastToppedUpAmount: pastToppedUpAmount,
+        ),
     ];
+
+    print("ben list = " + ModelBeneficiary.convertListToJson(list));
+
+    return list;
   }
 
   Future<User> readUser() async {
@@ -107,7 +125,22 @@ class AppDb {
       where: '${user.id} = ?',
       whereArgs: [user.id],
     );
-    print("db result = $result");
+    return result;
+  }
+
+  Future<int> updateBeneficiaryTopUpAmount(
+    ModelBeneficiary ben,
+    int amount,
+  ) async {
+    ben.pastToppedUpAmount = ben.pastToppedUpAmount + amount;
+    final db = await instance.database;
+    final result = await db.update(
+      _TABLE_BENEFICIARIES,
+      ben.toMap(),
+      where: 'id = ?',
+      whereArgs: [ben.id],
+    );
+    print("ben update result = $result");
     return result;
   }
 
@@ -130,7 +163,6 @@ class AppDb {
       where: '${user.id} = ?',
       whereArgs: [user.id],
     );
-    print("db result = $result");
     return result;
   }
 

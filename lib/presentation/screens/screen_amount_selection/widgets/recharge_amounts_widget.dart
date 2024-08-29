@@ -21,7 +21,7 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
     if ((selection == null) &&
         (AmountsEnum.five.amount <=
             widget.user.maxMonthlyAmount - widget.user.spentAmount)) {
-      widget.callback(selection);
+      widget.callback(AmountsEnum.five);
       selection = AmountsEnum.five;
       print("in if");
     }

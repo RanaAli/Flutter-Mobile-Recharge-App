@@ -38,7 +38,15 @@ class _BeneficiaryItemState extends State<BeneficiaryItemWidget> {
               style: textStyleSmallGrey,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            Text(
+              widget.data.pastToppedUpAmount.toString(),
+              style: const TextStyle(
+                fontSize: 10,
+                color: Colors.red,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 4),
             ElevatedButton(
               onPressed: () => navigateToAmountSelection(context, widget.data),
               style: buttonStyleBlue,

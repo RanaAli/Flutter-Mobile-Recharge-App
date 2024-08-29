@@ -127,6 +127,10 @@ class _ConfirmationState extends State<ConfirmationPage> {
                   children: [
                     FilledButton(
                         onPressed: () async {
+                          await db.updateBeneficiaryTopUpAmount(
+                            widget.data.beneficiary,
+                            widget.data.amountEnum.amount,
+                          );
                           var future =
                               await db.updateAvailableAmount(balanceAmount);
 

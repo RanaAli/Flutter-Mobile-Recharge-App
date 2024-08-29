@@ -85,6 +85,7 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
                           var beneficiary = ModelBeneficiary(
                             name: nameTextFieldController.text,
                             phone: phoneTextFieldController.text,
+                            pastToppedUpAmount: 0,
                           );
 
                           final response = await ApiService.instance

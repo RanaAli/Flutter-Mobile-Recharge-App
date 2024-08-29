@@ -9,17 +9,21 @@ class ModelBeneficiary {
   int? id;
   final String name;
   final String phone;
+  int pastToppedUpAmount = 0;
 
   ModelBeneficiary({
     this.id,
     required this.name,
     required this.phone,
+    required this.pastToppedUpAmount,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'phone': phone,
+      'pastToppedUpAmount': pastToppedUpAmount,
     };
   }
 
@@ -27,6 +31,7 @@ class ModelBeneficiary {
     return ModelBeneficiary(
       name: map['name'] as String,
       phone: map['phone'] as String,
+      pastToppedUpAmount: map['pastToppedUpAmount'] as int,
     );
   }
 

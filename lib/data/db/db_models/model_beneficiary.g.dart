@@ -11,6 +11,7 @@ ModelBeneficiary _$ModelBeneficiaryFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String,
       phone: json['phone'] as String,
+      pastToppedUpAmount: (json['pastToppedUpAmount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$ModelBeneficiaryToJson(ModelBeneficiary instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$ModelBeneficiaryToJson(ModelBeneficiary instance) =>
       'id': instance.id,
       'name': instance.name,
       'phone': instance.phone,
+      'pastToppedUpAmount': instance.pastToppedUpAmount,
     };
