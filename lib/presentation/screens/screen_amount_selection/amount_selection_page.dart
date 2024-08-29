@@ -24,7 +24,7 @@ class _AmountSelectionState extends State<AmountSelectionPage> {
     id: 1,
     availableAmount: 0,
     spentAmount: 0,
-    maxTotalAmount: 0,
+    maxMonthlyAmount: 0,
     maxPerBeneficiaryAmount: 0,
   );
 
@@ -121,6 +121,6 @@ class _AmountSelectionState extends State<AmountSelectionPage> {
 
   bool isButtonEnabled(AmountsEnum amountEnum) {
     return ((amountEnum.amount <= _user.availableAmount) &&
-        (amountEnum.amount <= _user.maxTotalAmount - _user.spentAmount));
+        (amountEnum.amount <= _user.maxMonthlyAmount - _user.spentAmount));
   }
 }

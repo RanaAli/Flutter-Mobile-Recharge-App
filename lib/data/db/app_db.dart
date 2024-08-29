@@ -15,7 +15,7 @@ class AppDb {
     id: 1,
     availableAmount: 100,
     spentAmount: 0,
-    maxTotalAmount: 50,
+    maxMonthlyAmount: 50,
     maxPerBeneficiaryAmount: 10,
   );
 
@@ -47,7 +47,7 @@ class AppDb {
       '( id INTEGER PRIMARY KEY AUTOINCREMENT, '
       'availableAmount INTEGER NOT NULL,'
       'spentAmount INTEGER NOT NULL,'
-      'maxTotalAmount INTEGER NOT NULL,'
+      'maxMonthlyAmount INTEGER NOT NULL,'
       'maxPerBeneficiaryAmount INTEGER NOT NULL'
       ')',
     );

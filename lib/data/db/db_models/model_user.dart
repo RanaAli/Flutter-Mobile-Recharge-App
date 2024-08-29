@@ -7,14 +7,14 @@ class User {
   int id;
   int availableAmount = 0;
   int spentAmount = 0;
-  int maxTotalAmount = 50;
+  int maxMonthlyAmount = 50;
   int maxPerBeneficiaryAmount = 10;
 
   User({
     required this.id,
     required this.availableAmount,
     required this.spentAmount,
-    required this.maxTotalAmount,
+    required this.maxMonthlyAmount,
     required this.maxPerBeneficiaryAmount,
   });
 
@@ -27,7 +27,7 @@ class User {
       'id': id,
       'availableAmount': availableAmount,
       'spentAmount': spentAmount,
-      'maxTotalAmount': maxTotalAmount,
+      'maxMonthlyAmount': maxMonthlyAmount,
       'maxPerBeneficiaryAmount': maxPerBeneficiaryAmount,
     };
   }

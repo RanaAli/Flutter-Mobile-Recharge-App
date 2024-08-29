@@ -21,7 +21,7 @@ class _ConfirmationState extends State<ConfirmationPage> {
     id: 1,
     availableAmount: 100,
     spentAmount: 0,
-    maxTotalAmount: 50,
+    maxMonthlyAmount: 50,
     maxPerBeneficiaryAmount: 10,
   );
   int chargeAmount = 1;

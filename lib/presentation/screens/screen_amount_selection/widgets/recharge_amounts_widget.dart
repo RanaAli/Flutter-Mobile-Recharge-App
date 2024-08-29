@@ -20,7 +20,7 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
   Widget build(BuildContext context) {
     if ((selection == null) &&
         (AmountsEnum.five.amount <=
-            widget.user.maxTotalAmount - widget.user.spentAmount)) {
+            widget.user.maxMonthlyAmount - widget.user.spentAmount)) {
       widget.callback(selection);
       selection = AmountsEnum.five;
       print("in if");
@@ -75,6 +75,6 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
   bool isButtonEnabled(AmountsEnum amountEnum) {
     return ((amountEnum.amount <= widget.user.availableAmount) &&
             (amountEnum.amount <=
-                widget.user.maxTotalAmount - widget.user.spentAmount));
+                widget.user.maxMonthlyAmount - widget.user.spentAmount));
   }
 }
