@@ -23,7 +23,6 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
             widget.user.maxMonthlyAmount - widget.user.spentAmount)) {
       widget.callback(AmountsEnum.five);
       selection = AmountsEnum.five;
-      print("in if");
     }
 
     return Column(

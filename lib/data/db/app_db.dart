@@ -102,8 +102,6 @@ class AppDb {
         ),
     ];
 
-    print("ben list = " + ModelBeneficiary.convertListToJson(list));
-
     return list;
   }
 
@@ -140,7 +138,6 @@ class AppDb {
       where: 'id = ?',
       whereArgs: [ben.id],
     );
-    print("ben update result = $result");
     return result;
   }
 

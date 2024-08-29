@@ -96,7 +96,6 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
                             setState(() {
                               showLoading = false;
                             });
-                            printModels(db);
                             Navigator.of(context).pop('done');
                           }
                         }
@@ -110,10 +109,6 @@ class _AddBeneficiaryPage extends State<AddBeneficiaryPage> {
           ),
         ));
   }
-}
-
-Future<void> printModels(AppDb db) async {
-  print(await db.readAll());
 }
 
 String? validateTextField(String value) {

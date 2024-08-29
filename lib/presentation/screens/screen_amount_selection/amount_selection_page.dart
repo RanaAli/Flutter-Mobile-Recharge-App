@@ -32,7 +32,6 @@ class _AmountSelectionState extends State<AmountSelectionPage> {
     db.readUser().then((value) {
       setState(() {
         _user = value;
-        print("user = " + _user.toJson().toString());
       });
     });
   }
