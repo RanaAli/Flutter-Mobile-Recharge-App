@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_user.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/amounts_enum.dart';
 
 class RechargeAmountWidget extends StatefulWidget {
-  final Function(AmountsEnum) callback;
+  final Function(AmountsEnum?) callback;
+  final User user;
 
-  const RechargeAmountWidget({super.key, required this.callback});
+  const RechargeAmountWidget(
+      {super.key, required this.user, required this.callback});
 
   @override
   State<RechargeAmountWidget> createState() => _RechargeAmountWidgetState();
 }
 
 class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
-  AmountsEnum? selection = AmountsEnum.five;
+  AmountsEnum? selection;
 
   @override
   Widget build(BuildContext context) {
+    if ((selection == null) &&
+        (AmountsEnum.five.amount <=
+            widget.user.maxTotalAmount - widget.user.spentAmount)) {
+      widget.callback(selection);
+      selection = AmountsEnum.five;
+      print("in if");
+    }
+
     return Column(
       children: <Widget>[
         amountListTile(AmountsEnum.five),
@@ -28,33 +39,42 @@ class _RechargeAmountWidgetState extends State<RechargeAmountWidget> {
     );
   }
 
-  Column amountListTile(AmountsEnum value) {
+  Column amountListTile(AmountsEnum amountEnum) {
     return Column(
       children: [
         ListTile(
+          enabled: isButtonEnabled(amountEnum),
           onTap: () {
             setState(() {
-              selection = value;
+              selection = amountEnum;
             });
           },
           shape: RoundedRectangleBorder(
             side: const BorderSide(color: Colors.grey, width: 1),
             borderRadius: BorderRadius.circular(8),
           ),
-          title: Text(value.text),
+          title: Text(amountEnum.text),
           leading: Radio<AmountsEnum>(
-            value: value,
+            value: amountEnum,
             groupValue: selection,
             onChanged: (AmountsEnum? value) {
-              setState(() {
-                widget.callback(value!);
-                selection = value;
-              });
+              if (isButtonEnabled(amountEnum)) {
+                setState(() {
+                  widget.callback(value);
+                  selection = value;
+                });
+              }
             },
           ),
         ),
         const SizedBox(height: 4),
       ],
     );
+  }
+
+  bool isButtonEnabled(AmountsEnum amountEnum) {
+    return ((amountEnum.amount <= widget.user.availableAmount) &&
+            (amountEnum.amount <=
+                widget.user.maxTotalAmount - widget.user.spentAmount));
   }
 }

@@ -11,7 +11,13 @@ class AppDb {
   final String _TABLE_BENEFICIARIES = "Beneficiary";
   final String _TABLE_USER = "User";
 
-  final user = User(id: 1, availableAmount: 100);
+  var user = User(
+    id: 1,
+    availableAmount: 100,
+    spentAmount: 0,
+    maxTotalAmount: 50,
+    maxPerBeneficiaryAmount: 10,
+  );
 
   AppDb._internal();
 
@@ -39,15 +45,15 @@ class AppDb {
       'CREATE TABLE '
       '$_TABLE_USER'
       '( id INTEGER PRIMARY KEY AUTOINCREMENT, '
-      'availableAmount INTEGER NOT NULL'
+      'availableAmount INTEGER NOT NULL,'
+      'spentAmount INTEGER NOT NULL,'
+      'maxTotalAmount INTEGER NOT NULL,'
+      'maxPerBeneficiaryAmount INTEGER NOT NULL'
       ')',
     );
 
-    await db.insert(
-      _TABLE_USER,
-      user.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace
-    );
+    await db.insert(_TABLE_USER, user.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
 
     await db.execute(
       'CREATE TABLE '
@@ -83,16 +89,39 @@ class AppDb {
     ];
   }
 
-  Future<int> readAvailableAmount() async {
+  Future<User> readUser() async {
     final db = await instance.database;
     final result = await db.query(_TABLE_USER);
     var mapList = result;
     var json = mapList.first;
     var user = User.fromJson(json);
-    return user.availableAmount;
+    return user;
   }
 
+  Future<int> updateUser(User user) async {
+    this.user = user;
+    final db = await instance.database;
+    final result = await db.update(
+      _TABLE_USER,
+      user.toMap(),
+      where: '${user.id} = ?',
+      whereArgs: [user.id],
+    );
+    print("db result = $result");
+    return result;
+  }
+
+  // Future<int> readAvailableAmount() async {
+  //   final db = await instance.database;
+  //   final result = await db.query(_TABLE_USER);
+  //   var mapList = result;
+  //   var json = mapList.first;
+  //   var user = User.fromJson(json);
+  //   return user.availableAmount;
+  // }
+
   Future<int> updateAvailableAmount(int newAmount) async {
+    user.spentAmount = user.spentAmount + (user.availableAmount - newAmount);
     user.availableAmount = newAmount;
     final db = await instance.database;
     final result = await db.update(
@@ -104,4 +133,13 @@ class AppDb {
     print("db result = $result");
     return result;
   }
+
+// Future<int> readSpentAmount() async {
+//   final db = await instance.database;
+//   final result = await db.query(_TABLE_USER);
+//   var mapList = result;
+//   var json = mapList.first;
+//   var user = User.fromJson(json);
+//   return user.spentAmount;
+// }
 }

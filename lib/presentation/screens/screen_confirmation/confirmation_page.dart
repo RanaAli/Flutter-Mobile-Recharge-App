@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/data/db/app_db.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_user.dart';
 import 'package:mobile_recharge_app/navigation/routes.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_confirmation/model_confirmation_page.dart';
 import 'package:mobile_recharge_app/presentation/ui_elements/text_styles.dart';
@@ -15,7 +16,14 @@ class ConfirmationPage extends StatefulWidget {
 
 class _ConfirmationState extends State<ConfirmationPage> {
   AppDb db = AppDb.instance;
-  int availableAmount = 0;
+
+  User user = User(
+    id: 1,
+    availableAmount: 100,
+    spentAmount: 0,
+    maxTotalAmount: 50,
+    maxPerBeneficiaryAmount: 10,
+  );
   int chargeAmount = 1;
   var totalCharges = 0;
   var balanceAmount = 0;
@@ -23,14 +31,14 @@ class _ConfirmationState extends State<ConfirmationPage> {
 
   @override
   void initState() {
-    _readAvailableAmountFromDb();
+    _readUserFromDb();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     totalCharges = chargeAmount + widget.data.amountEnum.amount;
-    balanceAmount = availableAmount - totalCharges;
+    balanceAmount = user.availableAmount - totalCharges;
 
     return Scaffold(
       appBar: AppBar(
@@ -41,10 +49,10 @@ class _ConfirmationState extends State<ConfirmationPage> {
     );
   }
 
-  _readAvailableAmountFromDb() {
-    db.readAvailableAmount().then((value) {
+  _readUserFromDb() {
+    db.readUser().then((value) {
       setState(() {
-        availableAmount = value;
+        user = value;
       });
     });
   }
@@ -83,7 +91,7 @@ class _ConfirmationState extends State<ConfirmationPage> {
                   children: [
                     const Text("Available Amount:"),
                     const SizedBox(width: 8),
-                    Text("Aed $availableAmount"),
+                    Text("Aed ${user.availableAmount}"),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -123,12 +131,11 @@ class _ConfirmationState extends State<ConfirmationPage> {
                               await db.updateAvailableAmount(balanceAmount);
 
                           if (1 == future) {
-                            _readAvailableAmountFromDb();
+                            _readUserFromDb();
 
                             setState(() {
                               success = true;
                             });
-                            // if (context.mounted) navigateToHome(context);
                           }
                         },
                         child: const Text("Yallah")),

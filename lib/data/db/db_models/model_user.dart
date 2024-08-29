@@ -6,8 +6,17 @@ part 'model_user.g.dart';
 class User {
   int id;
   int availableAmount = 0;
+  int spentAmount = 0;
+  int maxTotalAmount = 50;
+  int maxPerBeneficiaryAmount = 10;
 
-  User({required this.id, required this.availableAmount});
+  User({
+    required this.id,
+    required this.availableAmount,
+    required this.spentAmount,
+    required this.maxTotalAmount,
+    required this.maxPerBeneficiaryAmount,
+  });
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
@@ -17,6 +26,9 @@ class User {
     return {
       'id': id,
       'availableAmount': availableAmount,
+      'spentAmount': spentAmount,
+      'maxTotalAmount': maxTotalAmount,
+      'maxPerBeneficiaryAmount': maxPerBeneficiaryAmount,
     };
   }
 }

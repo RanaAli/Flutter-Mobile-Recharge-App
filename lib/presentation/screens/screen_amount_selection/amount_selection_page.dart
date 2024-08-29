@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_recharge_app/data/db/app_db.dart';
 import 'package:mobile_recharge_app/data/db/db_models/model_beneficiary.dart';
+import 'package:mobile_recharge_app/data/db/db_models/model_user.dart';
 import 'package:mobile_recharge_app/navigation/routes.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/amounts_enum.dart';
 import 'package:mobile_recharge_app/presentation/screens/screen_amount_selection/widgets/recharge_amounts_widget.dart';
@@ -17,21 +18,28 @@ class AmountSelectionPage extends StatefulWidget {
 }
 
 class _AmountSelectionState extends State<AmountSelectionPage> {
-  AmountsEnum amountsEnum = AmountsEnum.five;
+  AmountsEnum? amountsEnum;
   AppDb db = AppDb.instance;
-  int availableAmount = 0;
+  User _user = User(
+    id: 1,
+    availableAmount: 0,
+    spentAmount: 0,
+    maxTotalAmount: 0,
+    maxPerBeneficiaryAmount: 0,
+  );
 
-  _readAvailableAmountFromDb() {
-    db.readAvailableAmount().then((value) {
+  _readUserFromDb() {
+    db.readUser().then((value) {
       setState(() {
-        availableAmount = value;
+        _user = value;
+        print("user = " + _user.toJson().toString());
       });
     });
   }
 
   @override
   void initState() {
-    _readAvailableAmountFromDb();
+    _readUserFromDb();
     super.initState();
   }
 
@@ -61,27 +69,58 @@ class _AmountSelectionState extends State<AmountSelectionPage> {
               ],
             ),
             const SizedBox(height: 8),
-            RechargeAmountWidget(callback: (value) {
-              amountsEnum = value;
-            }),
+            RechargeAmountWidget(
+                user: _user,
+                callback: (value) {
+                  amountsEnum = value;
+                }),
             const SizedBox(height: 8),
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text("Available Amount:"),
-                Text("AED $availableAmount", style: textStyleNormalBoldBlack),
+                Column(
+                  children: [
+                    const Text("Available Amount:", style: textStyleSmallGrey),
+                    Text("AED ${_user.availableAmount}",
+                        style: textStyleNormalBoldBlack),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Text("Total Amount Spent:",
+                        style: textStyleSmallGrey),
+                    Text("AED ${_user.spentAmount}",
+                        style: textStyleNormalBoldBlack),
+                  ],
+                )
               ],
             ),
             const SizedBox(height: 16),
+            if (!isButtonEnabled(AmountsEnum.five))
+              const Text(
+                "You have reached your max monthly limit!",
+                style: textStyleError,
+              ),
+            const SizedBox(height: 16),
             FilledButton(
-              onPressed: () => navigateToConfirmation(
-                  context,
-                  ModelConfirmationPage(
-                      beneficiary: widget.data, amountEnum: amountsEnum)),
+              onPressed: () => {
+                if (amountsEnum != null)
+                  navigateToConfirmation(
+                    context,
+                    ModelConfirmationPage(
+                        beneficiary: widget.data, amountEnum: amountsEnum!),
+                  )
+              },
               child: const Text("Next"),
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool isButtonEnabled(AmountsEnum amountEnum) {
+    return ((amountEnum.amount <= _user.availableAmount) &&
+        (amountEnum.amount <= _user.maxTotalAmount - _user.spentAmount));
   }
 }
